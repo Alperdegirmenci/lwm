@@ -5,7 +5,7 @@
         Zoom: 6
     },
     BaseMaps: {
-        basarMap: L.tileLayer("http://bms.basarsoft.com.tr/Service/api/v1/map/promap?z={z}&x={x}&y={y}&appcode=sWNGj5utTE-h1LY9uwOKrA&accid=M6_gfCCQlEmJZi4fNWNN-g", {
+        basarMap: L.tileLayer("http://bms.basarsoft.com.tr/Service/api/v1/map/promap?z={z}&x={x}&y={y}", {
             maxZoom: 20,
             attribution: "Başarsoft BMS"
         }),
