@@ -18,7 +18,7 @@ namespace lwm.Web.Hub
 
         public void SendNotifications(string message)
         {
-            Clients.All.receiveNotification(message);
+            Clients.Others.receiveNotification(message);
         }
 
     }

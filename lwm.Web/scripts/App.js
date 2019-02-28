@@ -28,7 +28,6 @@
     Map: null,
     DrawnFeatures: null,
     ServerFeatures: null,
-    SignalRHub: null,
     SignalRMapHub: null,
     ReSizeTimer:null,
     DTO: {
@@ -46,8 +45,8 @@
 };
 
 App.InitSignalR = function () {
-    App.SignalRMapHub = $.connection.mapHub;
-    App.SignalRMapHub.client.receiveNotification = function (message) {
+    App.SignalRMapHub = $.connection.hub;
+    App.SignalRMapHub.proxies.maphub.client.receiveNotification = function (message) {
 
         App.ParseAddMarker(JSON.parse(message));
 
@@ -55,8 +54,7 @@ App.InitSignalR = function () {
             moment().format('MMMM Do YYYY, h:mm:ss a') + ':' + message;
         $('#textServerLogs').appendVal(message);
     };
-    App.SignalRHub = $.connection.hub;
-    App.SignalRHub.start();
+    App.SignalRMapHub.start();
 };
 
 App.Startup = function () {
@@ -72,7 +70,7 @@ App.InitMap = function () {
         center: new L.LatLng(
             App.DefaultValues.Latitude,
             App.DefaultValues.Longitude),
-        layers: [App.BaseMaps.basarMap]
+        layers: [App.BaseMaps.atlas]
     });
 
     App.DrawnFeatures = L.featureGroup().addTo(App.Map);
@@ -160,15 +158,11 @@ App.Send = function () {
 App.ParseAddMarker = function (jsonMarker) {
     var pulsingIcon = L.icon.pulse({
         iconSize: [20, 20],
-        color: jsonMarker.Type === 1 ? 'yellow' : jsonMarker.Type === 2 ? 'red' : 'green'
+        color: jsonMarker.Type === 1 ? 'yellow' : jsonMarker.Type === 2 ? 'red' : 'green',
+        fillColor: jsonMarker.Type === 1 ? 'rgba(255, 216, 0, 0.5)' : jsonMarker.Type === 2 ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 33, 0.5)',
+        totalcount: jsonMarker.Timeout
     });
-    pulsingIcon.options.className = pulsingIcon.options.className.replace('animated-icon-yellow', '');
-    pulsingIcon.options.className = pulsingIcon.options.className.replace('animated-icon-red', '');
-    pulsingIcon.options.className = pulsingIcon.options.className.replace('animated-icon-green', '');
-    pulsingIcon.options.className +=
-        jsonMarker.Type === 1 ? ' animated-icon-yellow' :
-            jsonMarker.Type === 2 ? ' animated-icon-red' :
-                ' animated-icon-green';
+    
     var marker = L.marker([jsonMarker.Lat, jsonMarker.Lon], { icon: pulsingIcon });
     
     marker.addTo(App.ServerFeatures)
@@ -180,7 +174,7 @@ App.onSuccessSend = function (data) {
     if (data.d) {
         if (data.d.ResultCode === 200) {
             App.ParseAddMarker(data.d);
-            App.SignalRHub.proxies.maphub.server.send(
+            App.SignalRMapHub.proxies.maphub.server.send(
                 $('#inputUserName')[0].value,
                 JSON.stringify(data.d));
             App.DrawnFeatures.clearLayers();
@@ -204,9 +198,6 @@ App.AsyncMethodCallWithUrl = function (url, onSuccesFunction, params, onErrorFun
         data: JSON.stringify(params),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        //beforeSend: function (xhr) {
-        //    xhr.setRequestHeader('SOAPAction', 'http://tempuri.org/TestSoapHeader');
-        //},
         success: onSuccesFunction,
         error: onErrorFunction
     });

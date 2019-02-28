@@ -14,17 +14,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
     <link rel="stylesheet"
         href="scripts/leaflet-icon-pulse-master/dist/L.Icon.Pulse.css" />
-    <style>
-        .animated-icon-red{
-          background-color: rgba(255, 0, 0, 0.7) !important;
-        }
-        .animated-icon-yellow{
-          background-color: rgba(255, 216, 0, 0.7) !important;
-        }
-        .animated-icon-green{
-          background-color: rgba(0, 255, 33, 0.7) !important;
-        }
-    </style>
+    <link href="scripts/PruneCluster-2.1.0/LeafletStyleSheet.css" rel="stylesheet" />
+   
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
@@ -37,7 +28,7 @@
     <script src="scripts/leaflet-icon-pulse-master/dist/L.Icon.Pulse.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/tr.js"></script>
-    
+    <script src="<%= ResolveClientUrl("~/scripts/PruneCluster-2.1.0/PruneCluster.js") %>" ></script>
     <script src="<%= ResolveClientUrl("~/scripts/jquery.signalR-2.4.0.min.js") %>" ></script>
     <script src="<%= ResolveClientUrl("~/signalr/hubs") %>" ></script>
     
