@@ -5,10 +5,6 @@
         Zoom: 6
     },
     BaseMaps: {
-        basarMap: L.tileLayer("http://bms.basarsoft.com.tr/Service/api/v1/map/promap?z={z}&x={x}&y={y}", {
-            maxZoom: 20,
-            attribution: "Başarsoft BMS"
-        }),
         gmapSatellite: L.tileLayer("https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
             maxZoom: 20,
             subdomains: ["mts0", "mts1", "mts2", "mts3"],
